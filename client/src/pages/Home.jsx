@@ -40,7 +40,7 @@ const Home = () => {
             <h2 className="text-2xl font-bold text-slate-100">Top Trending</h2>
             <p className="text-slate-500 text-sm mt-1">Most popular anime right now</p>
           </div>
-          <Button variant="outline" className="border-slate-800 text-slate-400 hover:text-slate-100 hover:bg-slate-900">
+          <Button variant="outline" className="bg-slate-800/50 text-slate-200 hover:bg-slate-700 hover:text-white border-none">
             View All
           </Button>
         </div>
