@@ -4,6 +4,7 @@ require('dotenv').config();
 
 // Import Routes
 const authRoutes = require('./src/routes/authRoutes');
+const animeRoutes = require('./src/routes/animeRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,6 +15,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes); // All auth routes start with /api/auth
+app.use('/api/anime', animeRoutes);
 
 // Test Route
 app.get('/', (req, res) => {
