@@ -55,7 +55,7 @@ const AnimeDetail = () => {
             className="absolute inset-0 bg-cover bg-center blur-xl opacity-50 scale-110"
             style={{ backgroundImage: `url(${anime.images.webp.large_image_url})` }}
         ></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
       </div>
 
       {/* --- CONTENT CONTAINER --- */}
@@ -63,7 +63,7 @@ const AnimeDetail = () => {
         <div className="flex flex-col md:flex-row gap-8">
           
           {/* LEFT COLUMN: POSTER & INFO */}
-          <div className="flex-shrink-0 mx-auto md:mx-0 w-64 md:w-72 space-y-6">
+          <div className="shrink-0 mx-auto md:mx-0 w-64 md:w-72 space-y-6">
             {/* Poster Image */}
             <div className="rounded-lg overflow-hidden shadow-2xl shadow-indigo-500/20 border border-slate-800">
               <img 
