@@ -47,17 +47,20 @@ const Navbar = () => {
             
             {/* Conditional Rendering based on Login Status */}
             {user ? (
-                <div className="hidden md:flex items-center gap-4">
-                    <span className="text-slate-300 font-bold uppercase tracking-widest text-[10px]">
-                        {user.username}
-                    </span>
-                    <Button 
-                        onClick={logout} 
-                        variant="ghost" 
-                        className="text-red-400 hover:text-red-300 hover:bg-red-950/30 text-xs"
-                    >
-                        Logout
-                    </Button>
+                <div className="hidden md:flex items-center gap-6">
+                    {/* NEW: Wishlist Link */}
+                    <Link to="/wishlist" className="text-sm font-medium text-slate-400 hover:text-indigo-400 transition-colors">
+                        My Wishlist
+                    </Link>
+
+                    <div className="flex items-center gap-4 border-l border-slate-800 pl-6">
+                        <span className="text-slate-300 font-bold uppercase tracking-widest text-[10px]">
+                            {user.username}
+                        </span>
+                        <Button onClick={logout} variant="ghost" className="text-red-400 hover:text-red-300 hover:bg-red-950/30 text-xs">
+                            Logout
+                        </Button>
+                    </div>
                 </div>
             ) : (
                 <Link to="/login">
