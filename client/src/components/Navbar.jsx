@@ -42,13 +42,13 @@ const Navbar = () => {
         <div className="flex items-center gap-4 shrink-0">
             <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
                 <Link to="/" className="hover:text-indigo-400 transition-colors">Home</Link>
-                <Link to="#" className="hover:text-indigo-400 transition-colors">Popular</Link>
+                <Link to="/popular" className="hover:text-indigo-400 transition-colors">Popular</Link>
             </div>
             
             {/* Conditional Rendering based on Login Status */}
             {user ? (
                 <div className="hidden md:flex items-center gap-6">
-                    {/* NEW: Wishlist Link */}
+                    {/* Wishlist Link */}
                     <Link to="/wishlist" className="text-sm font-medium text-slate-400 hover:text-indigo-400 transition-colors">
                         My Wishlist
                     </Link>
