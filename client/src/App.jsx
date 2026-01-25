@@ -6,6 +6,7 @@ import Search from "@/pages/Search"
 import Login from "@/pages/Login"
 import Register from "@/pages/Register"
 import Wishlist from "@/pages/Wishlist";
+import Popular from "@/pages/Popular";
 
 function App() {
   const currentYear = new Date().getFullYear();
@@ -16,18 +17,18 @@ function App() {
       <Navbar />
 
       <Routes>
+        {/* Main Pages */}
         <Route path="/" element={<Home />} />
-        
         <Route path="/anime/:id" element={<AnimeDetail />} />
-
         <Route path="/search/:query" element={<Search />} />
         
-        {/* Auth Routes */}
+        {/* Authentication */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected Route for Wishlist */}
+        {/* Protected / Other Pages */}
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/popular" element={<Popular />} />
       </Routes>
       
       <footer className="py-8 text-center border-t border-slate-900 mt-auto">
