@@ -8,6 +8,8 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    document.title = "Animend - Discover Your Next Favorite";
+    
     const fetchTopAnime = async () => {
       try {
         const response = await fetch('https://api.jikan.moe/v4/top/anime?limit=10');
@@ -15,7 +17,7 @@ const Home = () => {
         setTopAnime(data.data);
         setLoading(false);
       } catch (error) {
-        console.error("Gagal mengambil data:", error);
+        console.error("Failed to fetch data:", error);
         setLoading(false);
       }
     };
@@ -42,7 +44,7 @@ const Home = () => {
             <p className="text-slate-500 text-sm mt-1">Most popular anime right now</p>
           </div>
           
-          <Link to="/search/tv">
+          <Link to="/popular">
             <Button variant="outline" className="bg-slate-800/50 text-slate-200 hover:bg-slate-700 hover:text-white border-none">
               View All
             </Button>
