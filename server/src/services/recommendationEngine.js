@@ -4,7 +4,7 @@ const generateRecommendations = (userWishlist, candidateAnimeList) => {
     const wishlistedIds = new Set();
 
     userWishlist.forEach(item => {
-        wishlistedIds.add(item.animeId); // Track IDs to exclude watched items
+        wishlistedIds.add(item.animeId); // Track wishlist IDs to avoid recommending already wishlisted anime
         
         if (item.genres) {
             item.genres.forEach(genre => {
