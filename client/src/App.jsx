@@ -7,6 +7,7 @@ import Login from "@/pages/Login"
 import Register from "@/pages/Register"
 import Wishlist from "@/pages/Wishlist";
 import Popular from "@/pages/Popular";
+import { Toaster } from "@/components/ui/sonner"
 
 function App() {
   const currentYear = new Date().getFullYear();
@@ -36,6 +37,14 @@ function App() {
           &copy; {currentYear} Animend Project
         </p>
       </footer>
+
+      <Toaster 
+        position="bottom-right" 
+        theme="dark"
+        richColors
+        duration={1500}
+        closeButton
+      />
     </div>
   )
 }

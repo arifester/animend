@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useAuth } from "@/context/AuthContext"
+import { toast } from "sonner"
 
 const AnimeDetail = () => {
   const { id } = useParams();
@@ -38,7 +39,9 @@ const AnimeDetail = () => {
 
   const handleAddToWishlist = async () => {
     if (!token) {
-        alert("Please login first to save this anime!");
+        toast.error("Access Denied", {
+            description: "Please login to save this anime.",
+        });
         return;
     }
 
@@ -53,20 +56,54 @@ const AnimeDetail = () => {
                 animeId: anime.mal_id,
                 title: anime.title,
                 image: anime.images.webp.large_image_url,
-                score: anime.score
+                score: anime.score,
+
+                genres: anime.genres.map(g => ({
+                    mal_id: g.mal_id,
+                    name: g.name
+                }))
             }),
         });
 
         const data = await response.json();
 
         if (response.ok) {
-            alert("Success! Added to your wishlist.");
+            toast.success("Added to Wishlist", {
+                description: `${anime.title} has been saved.`,
+                actionButtonStyle: {
+                  backgroundColor: "white",
+                  color: "black",
+                  fontWeight: "bold"
+                },
+                action: {
+                    label: "Undo",
+                    onClick: async () => {
+                        try {
+                            const undoResponse = await fetch(`http://localhost:5000/api/anime/wishlist/${anime.mal_id}`, {
+                                method: "DELETE",
+                                headers: { "Authorization": `Bearer ${token}` }
+                            });
+                            
+                            if(undoResponse.ok) {
+                                toast.info("Action Undone", {
+                                    description: "Item removed from wishlist.",
+                                    duration: 1500
+                                });
+                            }
+                        } catch (err) {
+                            console.error("Undo failed", err);
+                        }
+                    },
+                },
+            });
         } else {
-            alert(data.message || "Failed to add.");
+           toast.warning("Warning", {
+                description: data.message || "Failed to add.",
+            });
         }
     } catch (error) {
         console.error("Wishlist error:", error);
-        alert("Something went wrong.");
+        toast.error("Something went wrong.");
     }
   };
 

@@ -3,6 +3,7 @@ import { useAuth } from "@/context/AuthContext";
 import AnimeCard from "@/components/AnimeCard";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { toast } from "sonner"
 
 const Wishlist = () => {
     const [wishlist, setWishlist] = useState([]);
@@ -30,8 +31,6 @@ const Wishlist = () => {
 
     // Handle Remove
     const handleRemove = async (animeId) => {
-        if (!confirm("Remove this anime from your list?")) return;
-
         try {
             const response = await fetch(`http://localhost:5000/api/anime/wishlist/${animeId}`, {
                 method: "DELETE",
@@ -39,13 +38,19 @@ const Wishlist = () => {
             });
 
             if (response.ok) {
-                // Remove from state immediately (UI update)
+                // Remove from UI
                 setWishlist(wishlist.filter(item => item.animeId !== animeId));
+
+                // Show Success Toast
+                toast.success("Removed from Wishlist", {
+                    description: "The anime has been removed from your collection.",
+                });
             } else {
-                alert("Failed to remove item.");
+                toast.error("Failed to remove item.");
             }
         } catch (error) {
             console.error("Error removing item:", error);
+            toast.error("Something went wrong.");
         }
     };
 

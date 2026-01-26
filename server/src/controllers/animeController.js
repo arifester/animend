@@ -1,11 +1,9 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const { generateRecommendations } = require('../services/recommendationEngine');
 
-/**
- * Add an anime to the user's wishlist
- */
 const addToWishlist = async (req, res) => {
-    const { animeId, title, image, score } = req.body;
+    const { animeId, title, image, score, genres } = req.body;
     const userId = req.userId; // Provided by authMiddleware
 
     try {
@@ -25,7 +23,8 @@ const addToWishlist = async (req, res) => {
                 animeId, animeId: parseInt(animeId),
                 title,
                 image,
-                score: parseFloat(score)
+                score: parseFloat(score),
+                genres: genres
             }
         });
 
@@ -36,9 +35,6 @@ const addToWishlist = async (req, res) => {
     }
 };
 
-/**
- * Get all wishlist items for the authenticated user
- */
 const getWishlist = async (req, res) => {
     const userId = req.userId;
 
@@ -53,9 +49,6 @@ const getWishlist = async (req, res) => {
     }
 };
 
-/**
- * Remove an anime from the user's wishlist
- */
 const removeFromWishlist = async (req, res) => {
     const { animeId } = req.params; // Get ID from URL
     const userId = req.userId;
@@ -79,4 +72,33 @@ const removeFromWishlist = async (req, res) => {
     }
 };
 
-module.exports = { addToWishlist, getWishlist, removeFromWishlist };
+const getUserRecommendations = async (req, res) => {
+    const userId = req.userId;
+
+    try {
+        // Fetch User's Wishlist (including saved genres)
+        const userWishlist = await prisma.wishlistItem.findMany({
+            where: { userId },
+            select: { 
+                animeId: true,
+                genres: true 
+            }
+        });
+
+        // Fetch Candidates (Top Anime from Jikan)
+        const response = await fetch('https://api.jikan.moe/v4/top/anime?limit=25');
+        const data = await response.json();
+        const candidateList = data.data;
+
+        // Process with Recommendation Engine
+        const recommendations = generateRecommendations(userWishlist, candidateList);
+
+        res.json({ data: recommendations });
+
+    } catch (error) {
+        console.error("Recommendation Error:", error);
+        res.status(500).json({ message: "Failed to generate recommendations." });
+    }
+};
+
+module.exports = { addToWishlist, getWishlist, removeFromWishlist, getUserRecommendations };

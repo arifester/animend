@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Custom Type
+type Genre {
+  mal_id Int
+  name   String
+}
+
 // Model User (User)
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -25,6 +31,9 @@ model WishlistItem {
   title     String
   image     String
   score     Float?
+
+  genres    Genre[]
+  
   addedAt   DateTime @default(now())
 
   userId    String   @db.ObjectId
