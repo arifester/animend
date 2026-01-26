@@ -53,7 +53,12 @@ const AnimeDetail = () => {
                 animeId: anime.mal_id,
                 title: anime.title,
                 image: anime.images.webp.large_image_url,
-                score: anime.score
+                score: anime.score,
+
+                genres: anime.genres.map(g => ({
+                    mal_id: g.mal_id,
+                    name: g.name
+                }))
             }),
         });
 

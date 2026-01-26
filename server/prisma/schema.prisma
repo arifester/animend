@@ -8,9 +8,9 @@ datasource db {
 }
 
 // Custom Type
-type genre {
+type Genre {
   mal_id Int
-  name String
+  name   String
 }
 
 // Model User (User)
