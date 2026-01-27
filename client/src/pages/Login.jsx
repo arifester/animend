@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import { toast } from "sonner";
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: "", password: "" });
@@ -22,12 +23,20 @@ const Login = () => {
             if (response.ok) {
                 // Save user and token to context & localStorage
                 login(data.user, data.token);
+                toast.success(`Welcome back, ${data.user.username}!`, {
+                    description: "You have successfully logged in.",
+                    duration: 2000,
+                });
             } else {
-                alert(data.message || "Login failed");
+                toast.error("Login Failed", {
+                    description: data.message || "Invalid email or password.",
+                });
             }
         } catch (error) {
             console.error("Login error:", error);
-            alert("Something went wrong. Please try again.");
+            toast.error("Error", {
+                description: "Something went wrong. Please try again.",
+            });
         }
     };
 
