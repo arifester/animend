@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Register = () => {
     const [formData, setFormData] = useState({ username: "", email: "", password: "" });
@@ -9,10 +10,14 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (formData.password.length < 6) {
-                alert("Password must be at least 6 characters!");
-                return;
-            }
+                toast.warning("Password too short", {
+                description: "Password must be at least 6 characters long.",
+            });
+            return;
+        }
+
         try {
             const response = await fetch("http://localhost:5000/api/auth/register", {
                 method: "POST",
@@ -20,14 +25,24 @@ const Register = () => {
                 body: JSON.stringify(formData),
             });
             const data = await response.json();
+
             if (response.ok) {
-                alert("Registration successful! Please login.");
+                toast.success("Account Created", {
+                description: "Registration successful! You can now login.",
+                duration: 2000,
+                });
                 navigate("/login");
+                
             } else {
-                alert(data.message);
+                toast.error("Registration Failed", {
+                    description: data.message || "Something went wrong.",
+                });
             }
         } catch (error) {
             console.error("Register error:", error);
+            toast.error("Network Error", {
+                description: "Please check your internet connection.",
+            });
         }
     };
 
